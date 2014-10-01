@@ -6,8 +6,19 @@ using System.Threading.Tasks;
 
 namespace EvolutionaryOptimization
 {
+    /// <summary>
+    /// Roulette selection operator.
+    /// In roulette selection, each individual's probability of selection is proportional to it's fitness
+    /// </summary>
     public class RouletteSelector : ISelectionOperator
     {
+        /// <summary>
+        /// Select individuals from the population
+        /// </summary>
+        /// <param name="fitness">the array of fitness values for the population</param>
+        /// <param name="number">the number of individuals to be selected</param>
+        /// <param name="rnd">the random number generator to be used</param>
+        /// <returns>the selected individuals' indices in the population</returns>
         public int[] Select(double[] fitness, int number, Random rnd)
         {
             // calculate min fitness so we can shift all fitnesses to positive starting at 0

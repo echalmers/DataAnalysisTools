@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EvolutionaryOptimization
 {
+    /// <summary>
+    /// Mutator class for individuals of type double[]
+    /// </summary>
     public class Mutator_DoubleVector : IMutationOperator<double[]>
     {
         double mutateFraction = 0.2;
@@ -22,7 +25,12 @@ namespace EvolutionaryOptimization
             set { mutateAmount = Math.Min(1,value); }
         }
 
-
+        /// <summary>
+        /// Perform random mutation of a double[]
+        /// </summary>
+        /// <param name="parent">the parent individual to be mutated</param>
+        /// <param name="rnd">the random number generator to be used</param>
+        /// <returns>a mutated version of the parent individual</returns>
         public double[] Mutate(double[] parent, Random rnd)
         {
             double[] child = (double[])parent.Clone();

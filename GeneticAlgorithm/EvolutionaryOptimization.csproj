@@ -43,6 +43,7 @@
     <Compile Include="CrossoverOperators.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Individuals.cs" />
+    <Compile Include="Interfaces.cs" />
     <Compile Include="Mutators.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selectors.cs" />

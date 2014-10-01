@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace EvolutionaryOptimization
 {
-    
+    /// <summary>
+    /// 'Creator' class for individuals of type double[]
+    /// </summary>
     public class Creator_DoubleVector : ICreationOperator<double[]>
     {
         int d;
@@ -14,6 +16,12 @@ namespace EvolutionaryOptimization
         double minValue = -1;
         double range = 2;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="D">Dimensionality, or number of elements in the double[]</param>
+        /// <param name="MaxValue">Maximum allowed value of a double in the array</param>
+        /// <param name="MinValue">Minimum allowed value of a double in the array</param>
         public Creator_DoubleVector(int D, double MaxValue, double MinValue)
         {
             d = D;
@@ -22,6 +30,11 @@ namespace EvolutionaryOptimization
             range = maxValue - minValue;
         }
 
+        /// <summary>
+        /// Creates a random double[] with parameters as supplied to the constructor
+        /// </summary>
+        /// <param name="rnd">The random number generator to be used</param>
+        /// <returns>An array of random doubles</returns>
         public double[] CreateRandomIndividual(Random rnd)
         {
             double[] vector = new double[d];
@@ -32,6 +45,7 @@ namespace EvolutionaryOptimization
             return vector;
         }
 
+        
         public object Clone()
         {
             return this.MemberwiseClone();

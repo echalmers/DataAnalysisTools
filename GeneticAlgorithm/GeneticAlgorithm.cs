@@ -6,32 +6,10 @@ using System.Threading.Tasks;
 
 namespace EvolutionaryOptimization
 {    
-    public interface ICrossoverOperator<T> : ICloneable
-    {
-        T Crossover(T parent1, T parent2, Random rnd);
-    }
-
-    public interface IMutationOperator<T> : ICloneable
-    {
-        T Mutate(T parent, Random rnd);
-    }
-
-    public interface ISelectionOperator : ICloneable
-    {
-        int[] Select(double[] fitnesses, int number, Random rnd);
-    }
-
-    public interface ICreationOperator<T> : ICloneable
-    {
-        T CreateRandomIndividual(Random rnd);
-    }
-
-    public interface IFitnessFunction<T> : ICloneable
-    {
-        double CalculateFitness(T individual);
-    }
-
-
+    /// <summary>
+    /// A versatile genetic algorithm which uses generics to optimize an individual of any type
+    /// </summary>
+    /// <typeparam name="T">The type of the individual to be optimized</typeparam>
     public class GeneticAlgorithm<T>
     {
 
@@ -104,6 +82,16 @@ namespace EvolutionaryOptimization
         IFitnessFunction<T> fitnessFunction;
         #endregion
 
+        /// <summary>
+        /// Construct a GeneticAlgorithm object
+        /// </summary>
+        /// <param name="CrossoverOperator">The object which will handle crossover operations</param>
+        /// <param name="MutationOperator">The object which will handle mutation operations</param>
+        /// <param name="SelectionOperator">The object which will handle selection</param>
+        /// <param name="CreationOperator">The object which will creation of random individuals</param>
+        /// <param name="FitnessFunction">The object which will handle calculation of an individual's fitness</param>
+        /// <param name="PopulationSize">The numer of individuals to maintain in the population</param>
+        /// <param name="rndSeed">Random seed</param>
         public GeneticAlgorithm(ICrossoverOperator<T> CrossoverOperator, IMutationOperator<T> MutationOperator, ISelectionOperator SelectionOperator,
                                 ICreationOperator<T> CreationOperator, IFitnessFunction<T> FitnessFunction, int PopulationSize, int rndSeed)
         {
@@ -126,11 +114,21 @@ namespace EvolutionaryOptimization
             }
         }
         
+        /// <summary>
+        /// Select a number of individuals from the population, using the selection operator provided
+        /// </summary>
+        /// <param name="number">Number of individuals to select</param>
+        /// <returns>The selected individuals' indices in the population</returns>
         public int[] selectIndividuals(int number)
         {
             return selectionOperator.Select(fitness, number, rnd);
         }
 
+        /// <summary>
+        /// Run the genetic algorithm for a specified number of iterations
+        /// </summary>
+        /// <param name="generations">The number of iterations to perform</param>
+        /// <returns>The best individual in the population after iterating</returns>
         public T iterate(int generations)
         {            
             // initialize the new population
@@ -188,6 +186,11 @@ namespace EvolutionaryOptimization
         }
     }
 
+    /// <summary>
+    /// A versatile multi-population genetic algorithm which uses generics to optimize an individual of any type
+    /// The multiple populations run in parallel for fast operation
+    /// </summary>
+    /// <typeparam name="T">The type of the individual to be optimized</typeparam>
     public class MultiPopulationGA<T>
     {
         #region attributes
@@ -208,6 +211,12 @@ namespace EvolutionaryOptimization
         IFitnessFunction<T> fitnessFunction;
         #endregion
 
+        /// <summary>
+        /// Construct a new multi-population genetic algorithm object
+        /// </summary>
+        /// <param name="fitnessFn">The object which will handle calculation of an individual's fitness</param>
+        /// <param name="NumPopulations">The number of parallel populations to maintain</param>
+        /// <param name="PopulationSize">The number of individuals in each population</param>
         public MultiPopulationGA(IFitnessFunction<T> fitnessFn, int NumPopulations, int PopulationSize)
         {
             populationSize = PopulationSize;
@@ -215,26 +224,46 @@ namespace EvolutionaryOptimization
             fitnessFunction = fitnessFn;
         }
 
+        /// <summary>
+        /// Add an ICrossoverOperator object to the pool of crossover operators available to the multi-population GA
+        /// </summary>
+        /// <param name="crossover">The ICrossoverOperator</param>
         public void addCrossoverOperator(ICrossoverOperator<T> crossover)
         {
             crossoverOperators.Add(crossover);
         }
 
+        /// <summary>
+        /// Add an IMutationOperator object to the pool of mutation operators available to the multi-population GA
+        /// </summary>
+        /// <param name="mutator">The IMutationOperator</param>
         public void addMutationOperator(IMutationOperator<T> mutator)
         {
             mutationOperators.Add(mutator);
         }
 
+        /// <summary>
+        /// Add an ISelectionOperator object to the pool of selection operators available to the multi-population GA
+        /// </summary>
+        /// <param name="selector">The ISelectionOperator</param>
         public void addSelectionOperator(ISelectionOperator selector)
         {
             selectionOperators.Add(selector);
         }
 
+        /// <summary>
+        /// Add an ICreationOperator object to the pool of creation operators available to the multi-population GA
+        /// </summary>
+        /// <param name="creator">The ICreationOperator</param>
         public void addCreationOperator(ICreationOperator<T> creator)
         {
             creationOperators.Add(creator);
         }
 
+        /// <summary>
+        /// Initialize the populations. Each population will use a random combination of the creation, selection, crossover, and mutation operators supplied to the MultiPopulationGA
+        /// </summary>
+        /// <param name="randomizeReproductionSettings">Set to true to randomize crossover rates and elite fractions for each population</param>
         public void initializeGAs(bool randomizeReproductionSettings)
         {
             GAs.Clear();
@@ -257,6 +286,11 @@ namespace EvolutionaryOptimization
             }
         }
 
+        /// <summary>
+        /// Run the multi-population GA for a specified number of iterations
+        /// </summary>
+        /// <param name="generations">The number of generations to iterate</param>
+        /// <returns>The best individual in all populations after iterating</returns>
         public T iterate(int generations)
         {
             if (GAs.Count < 2)
@@ -282,6 +316,10 @@ namespace EvolutionaryOptimization
             return bestIndividuals[bestIndex];
         }
 
+        /// <summary>
+        /// Allow some individuals to migrate randomly between populations
+        /// </summary>
+        /// <param name="fraction">the fraction of each population to migrate</param>
         public void migrate(double fraction)
         {
             int numIndividuals = (int)Math.Round(fraction * populationSize);
