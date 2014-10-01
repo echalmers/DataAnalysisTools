@@ -9,6 +9,7 @@ namespace FuzzyInference
     /// <summary>
     /// Struct representing a variable in a dataset
     /// </summary>
+    [Serializable()]
     public struct Variable
     {
         double max;

@@ -23,6 +23,7 @@ namespace GeneticFuzzyModelling
     /// <summary>
     /// A model using a trained fuzzy rule base to make predictions
     /// </summary>
+    [Serializable()]
     public class FuzzyRuleBaseModel : LearnerInterface
     {
         int maxGaIterations = 10;

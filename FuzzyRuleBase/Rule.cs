@@ -9,6 +9,7 @@ namespace FuzzyInference
     /// <summary>
     /// Class representing a fuzzy rule
     /// </summary>
+    [Serializable()]
     public class FuzzyRule
     {
         Dictionary<Variable, FuzzySet> antecedents = new Dictionary<Variable, FuzzySet>();

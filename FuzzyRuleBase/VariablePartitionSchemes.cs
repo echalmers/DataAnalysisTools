@@ -9,6 +9,7 @@ namespace FuzzyInference
     /// <summary>
     /// Class representing a number of fuzzy sets which partition the range of a variable
     /// </summary>
+    [Serializable()]
     public abstract class VariablePartition : List<FuzzySet>
     {
 
@@ -17,6 +18,7 @@ namespace FuzzyInference
     /// <summary>
     /// A partition which covers a variable's range using triangular fuzzy sets
     /// </summary>
+    [Serializable()]
     public class TriVariablePartition : VariablePartition
     {
         /// <summary>

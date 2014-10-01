@@ -9,6 +9,7 @@ namespace FuzzyInference
     /// <summary>
     /// Class representing a fuzzy set
     /// </summary>
+    [Serializable()]
     public class FuzzySet
     {
         string name;
@@ -96,6 +97,7 @@ namespace FuzzyInference
     /// <summary>
     /// A triangular membership function
     /// </summary>
+    [Serializable()]
     public class triMembershipFunction : IMembershipFunction
     {
         double _a, _b, _c, centerOfMass;

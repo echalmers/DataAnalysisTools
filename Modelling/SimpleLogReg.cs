@@ -16,6 +16,7 @@ namespace Modelling
     /// function is supplied, the algorithm maximizes likelihood(B)
     /// WARNING: the nelder-mead *may* be unsuitable for some low-dimensionality (i.e. one predictor) situations.
     /// </summary>
+    [Serializable()]
     public class LogReg : LearnerInterface
     {
         public double[] B;

@@ -10,6 +10,7 @@ namespace FuzzyInference
     /// <summary>
     /// Class representing a fuzzy rule base
     /// </summary>
+    [Serializable()]
     public class FuzzyRuleBase : List<FuzzyRule>
     {
         //public void addRule(FuzzyRule rule)
