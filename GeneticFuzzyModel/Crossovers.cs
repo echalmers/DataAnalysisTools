@@ -8,8 +8,18 @@ using FuzzyInference;
 
 namespace GeneticFuzzyModelling
 {
+    /// <summary>
+    /// Class for performing crossovers on fuzzy rule bases involving triangular membership functions
+    /// </summary>
     public class Crossover_FuzzyRuleBase_Triangle : ICrossoverOperator<FuzzyRuleBaseModel>
     {
+        /// <summary>
+        /// Perform crossover
+        /// </summary>
+        /// <param name="parent1">The first parent rule base</param>
+        /// <param name="parent2">The second parent rule base</param>
+        /// <param name="rnd">The random number generator to be used</param>
+        /// <returns>The child rule base</returns>
         public FuzzyRuleBaseModel Crossover(FuzzyRuleBaseModel parent1, FuzzyRuleBaseModel parent2, Random rnd)
         {
             FuzzyRuleBaseModel child = new FuzzyRuleBaseModel();

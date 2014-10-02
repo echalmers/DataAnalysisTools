@@ -14,6 +14,9 @@ namespace GeneticFuzzyModelling
         void setData(double[][] X, double[] Y);
     }
 
+    /// <summary>
+    /// A model using a trained fuzzy rule base to make predictions
+    /// </summary>
     public class FuzzyRuleBaseModel : LearnerInterface
     {
         int maxGaIterations = 10;
@@ -47,6 +50,13 @@ namespace GeneticFuzzyModelling
         public FuzzyRuleBaseModel()
         { }
 
+        /// <summary>
+        /// Construct a new fuzzy rule base model
+        /// </summary>
+        /// <param name="Variables">Array of variable opjects allowed in the rule base</param>
+        /// <param name="OutputVariable">Object representing the output variable</param>
+        /// <param name="NumSets">Number of fuzzy sets to use when partitioning variables</param>
+        /// <param name="fit">Fitness function object used in evolutionary optimization of this fuzzy rule base</param>
         public FuzzyRuleBaseModel(Variable[] Variables, Variable OutputVariable, int NumSets, FuzzyModelFitnessFn fit)
         {
             variables = Variables;
@@ -55,6 +65,11 @@ namespace GeneticFuzzyModelling
             fitnessFn = fit;
         }
 
+        /// <summary>
+        /// Train the fuzzy rule base
+        /// </summary>
+        /// <param name="trainingX">Training inputs</param>
+        /// <param name="trainingY">Training outputs</param>
         public void train(double[][] trainingX, double[] trainingY)
         {
             Creator_FuzzyRuleBase_Triangle creator = new Creator_FuzzyRuleBase_Triangle(variables, outputVariable, numSets);
@@ -91,6 +106,11 @@ namespace GeneticFuzzyModelling
             outputPartition = ga.OptimizedIndividual.outputPartition;
         }
 
+        /// <summary>
+        /// Predict the output for given set of inputs
+        /// </summary>
+        /// <param name="X">The array of input vectors for which predictions are to be generated</param>
+        /// <returns>The array of predictions</returns>
         public double[] predict(double[][] X)
         {
             double[] predictions = new double[X.GetLength(0)];
@@ -132,7 +152,11 @@ namespace GeneticFuzzyModelling
             return rules + Environment.NewLine + partitions;
         }
 
-        // sometimes after altering the underlying partition, we must update the rules to reflect the new sets
+        
+        /// <summary>
+        /// Sometimes after altering the underlying partition, we must update the rules to reflect the new sets
+        /// </summary>
+        /// <param name="updatedVariable">The variable which has been altered</param>
         public void RemapInputSets(Variable updatedVariable)
         {
             Dictionary<string, FuzzySet> newSets = new Dictionary<string, FuzzySet>();
@@ -151,6 +175,9 @@ namespace GeneticFuzzyModelling
             }
         }
 
+        /// <summary>
+        /// sometimes after altering the underlying partition, we must update the rules to reflect the new sets
+        /// </summary>
         public void RemapOutputSets()
         {
             Dictionary<string, FuzzySet> newSets = new Dictionary<string, FuzzySet>();
@@ -165,7 +192,7 @@ namespace GeneticFuzzyModelling
             }
         }
 
-        public object Clone()
+        public LearnerInterface Copy()
         {
             FuzzyRuleBaseModel cloned = new FuzzyRuleBaseModel();
             cloned.ruleBase = new FuzzyRuleBase(ruleBase);

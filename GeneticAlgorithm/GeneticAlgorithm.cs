@@ -186,6 +186,11 @@ namespace EvolutionaryOptimization
         }
     }
 
+
+
+
+
+
     /// <summary>
     /// A versatile multi-population genetic algorithm which uses generics to optimize an individual of any type
     /// The multiple populations run in parallel for fast operation

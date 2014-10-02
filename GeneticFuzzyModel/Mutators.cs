@@ -8,12 +8,21 @@ using FuzzyInference;
 
 namespace GeneticFuzzyModelling
 {
+    /// <summary>
+    /// Mutator for fuzzy rule bases which use triangular membership functions
+    /// </summary>
     public class Mutator_FuzzyRuleBase_Triangle : IMutationOperator<FuzzyRuleBaseModel>
     {
         int minRuleLength = 1;
         int maxRuleLength = 4;
         int maxRules = 7;
 
+        /// <summary>
+        /// Perform mutation
+        /// </summary>
+        /// <param name="parent">The parent fuzzy fule base</param>
+        /// <param name="rnd">The random number generator to be used</param>
+        /// <returns>A mutated version of the parent rule base</returns>
         public FuzzyRuleBaseModel Mutate(FuzzyRuleBaseModel parent, Random rnd)
         {
             // possible mutations:
@@ -26,7 +35,7 @@ namespace GeneticFuzzyModelling
             // 6) mutate an underlying partition
             // 7) mutate the output partition
 
-            FuzzyRuleBaseModel child = (FuzzyRuleBaseModel)parent.Clone();
+            FuzzyRuleBaseModel child = (FuzzyRuleBaseModel)parent.Copy();
 
             switch(7)//(rnd.Next(6))
             {

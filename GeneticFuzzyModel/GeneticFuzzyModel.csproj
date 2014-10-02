@@ -54,6 +54,10 @@
       <Project>{d4025677-e3a7-4c45-8675-38d6d22e809d}</Project>
       <Name>EvolutionaryOptimization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modelling\ModellingTools.csproj">
+      <Project>{0b4d78ba-28ee-448b-9f74-9b4d6c06d4c2}</Project>
+      <Name>ModellingTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

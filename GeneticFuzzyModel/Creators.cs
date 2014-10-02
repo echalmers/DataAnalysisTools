@@ -8,6 +8,9 @@ using FuzzyInference;
 
 namespace GeneticFuzzyModelling
 {
+    /// <summary>
+    /// Class for creating random fuzzy rule bases involving triangular membership functions
+    /// </summary>
     public class Creator_FuzzyRuleBase_Triangle : ICreationOperator<FuzzyRuleBaseModel>
     {
         int numSets = 3;
@@ -19,6 +22,13 @@ namespace GeneticFuzzyModelling
         Variable outputVariable;
 
         #region constructors
+
+        /// <summary>
+        /// Construct a new creator object
+        /// </summary>
+        /// <param name="Variables">Array of variable objects allowed in the fuzzy rule base</param>
+        /// <param name="OutputVariable">The object representing the output variable</param>
+        /// <param name="NumSets">The number of fuzzy sets to use when partitioning variables (must be >=2)</param>
         public Creator_FuzzyRuleBase_Triangle(Variable[] Variables, Variable OutputVariable, int NumSets)
         {
             numSets = NumSets;
@@ -26,6 +36,17 @@ namespace GeneticFuzzyModelling
             outputVariable = OutputVariable;
             maxRuleLength = Math.Min(maxRuleLength, Variables.Length);
         }
+
+        /// <summary>
+        /// Construct a new creator object
+        /// </summary>
+        /// <param name="Variables">Array of variable objects allowed in the fuzzy rule base</param>
+        /// <param name="OutputVariable">The object representing the output variable</param>
+        /// <param name="MinRules">Minimum number of rules allowed in a rule base</param>
+        /// <param name="MaxRules">Maximum number of rules allowed in a rule base</param>
+        /// <param name="MinRuleLength">Minimum number of antecedents in a rule</param>
+        /// <param name="MaxRuleLength">Maximum number of antecedents in a rule</param>
+        /// <param name="NumSets">The number of fuzzy sets to use when partitioning variables (must be >=2)</param>
         public Creator_FuzzyRuleBase_Triangle(Variable[] Variables, Variable OutputVariable, int MinRules, int MaxRules, int MinRuleLength, int MaxRuleLength, int NumSets)        
         {
             numSets = NumSets;
@@ -38,6 +59,11 @@ namespace GeneticFuzzyModelling
         }
         #endregion
 
+        /// <summary>
+        /// Create a random fuzzy rule base
+        /// </summary>
+        /// <param name="rnd">Random number generator to be used</param>
+        /// <returns>A random rule base</returns>
         public FuzzyRuleBaseModel CreateRandomIndividual(Random rnd)
         {
             FuzzyRuleBaseModel rb = new FuzzyRuleBaseModel();
