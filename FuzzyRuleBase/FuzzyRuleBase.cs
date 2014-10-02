@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace FuzzyInference
 {
    
+    /// <summary>
+    /// Class representing a fuzzy rule base
+    /// </summary>
     public class FuzzyRuleBase : List<FuzzyRule>
     {
         //public void addRule(FuzzyRule rule)
@@ -28,6 +31,10 @@ namespace FuzzyInference
         {
         }
 
+        /// <summary>
+        ///  Copy constructor
+        /// </summary>
+        /// <param name="rbToCopy"></param>
         public FuzzyRuleBase(FuzzyRuleBase rbToCopy)// : base(rb)
         {
             foreach (FuzzyRule rule in rbToCopy)
@@ -37,6 +44,11 @@ namespace FuzzyInference
             }
         }
 
+        /// <summary>
+        /// Apply the rule base to an input value
+        /// </summary>
+        /// <param name="X">The input vector</param>
+        /// <returns>The defuzzified output</returns>
         public double getOutput(double[] X)
         {
             double sumActivation = 0;

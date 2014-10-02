@@ -6,13 +6,23 @@ using System.Threading.Tasks;
 
 namespace FuzzyInference
 {
+    /// <summary>
+    /// Class representing a number of fuzzy sets which partition the range of a variable
+    /// </summary>
     public abstract class VariablePartition : List<FuzzySet>
     {
 
     }
 
+    /// <summary>
+    /// A partition which covers a variable's range using triangular fuzzy sets
+    /// </summary>
     public class TriVariablePartition : VariablePartition
     {
+        /// <summary>
+        ///  copy constructor
+        /// </summary>
+        /// <param name="partitionToCopy"></param>
         public TriVariablePartition(TriVariablePartition partitionToCopy)
         {
             foreach(FuzzySet s in partitionToCopy)
@@ -21,16 +31,27 @@ namespace FuzzyInference
             }
         }
 
+        /// <summary>
+        /// Constructor for a partition which covers a variable's range using triangular fuzzy sets
+        /// </summary>
+        /// <param name="corePoints">Points at which each triangle should peak</param>
         public TriVariablePartition(double[] corePoints)
         {
             populateList(corePoints);
         }
 
+        /// <summary>
+        /// Constructor for a partition which covers a variable's range using triangular fuzzy sets
+        /// </summary>
+        /// <param name="min">The minimum of the range to be covered</param>
+        /// <param name="max">The maximum of the range to be covered</param>
+        /// <param name="numSets">The number of sets used to cover the range (must be >=2)</param>
         public TriVariablePartition(double min, double max, int numSets)
         {
             populateList(min, max, numSets);
         }
 
+        
         private void populateList(double min, double max, int numSets)
         {
             double range = max - min;
