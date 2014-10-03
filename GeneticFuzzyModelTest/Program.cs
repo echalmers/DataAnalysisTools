@@ -32,7 +32,7 @@ namespace GeneticFuzzyModelTest
             FuzzyRuleBaseModel model = new FuzzyRuleBaseModel(variables, outputVariable, 3, fitnessFn);
             
 
-            // train the model for minimum absolute error of predictions
+            // train the model for minimum error of predictions
             Stopwatch sw = new Stopwatch();
             Console.WriteLine("Training model...");
             sw.Start();
