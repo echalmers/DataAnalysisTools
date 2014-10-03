@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Modelling
 {
+    /// <summary>
+    /// A simple, forward feature selection algorithm. Candidate features are evaluated using 
+    /// cross validation and a user-supplied objective function
+    /// </summary>
     public class GreedyFeatureSelector
     {
         #region fields
@@ -46,6 +50,12 @@ namespace Modelling
         int rndSeed;
         #endregion
 
+        /// <summary>
+        /// Create a feature selector object
+        /// </summary>
+        /// <param name="trainingX">Training instances</param>
+        /// <param name="trainingY">Training outputs</param>
+        /// <param name="RandSeed">Seed for random number generation</param>
         public GreedyFeatureSelector(double[][] trainingX, double[] trainingY, int RandSeed)
         {
             X = trainingX;
@@ -53,6 +63,12 @@ namespace Modelling
             rndSeed = RandSeed;
         }
 
+        /// <summary>
+        /// Perform feature selection
+        /// </summary>
+        /// <param name="learner">the learner to evaluate</param>
+        /// <param name="evaluate">the objective function used in the evaluation</param>
+        /// <returns>the indices of the features selected</returns>
         public int[] SelectFeatures(LearnerInterface learner, predictionEvaluation evaluate)
         {
             int D = X[0].Length;
@@ -137,76 +153,11 @@ namespace Modelling
             return selected.ToArray();
         }
 
-        //public int[] ParallelSelectFeatures(LearnerInterface learner, predictionEvaluation evaluate)
-        //{
-        //    int D = X[0].Length;
-
-        //    // initialize fitness, and selected and unselected lists
-        //    bestFitness = null;
-        //    unselected.Clear(); selected.Clear();
-        //    for (int i = 0; i < D; i++)
-        //    {
-        //        unselected.Add(i);
-        //    }
-
-        //    // outer loop of all candidate features
-        //    for (int i = 0; i < D; i++)
-        //    {
-        //        // inner loop of individual candidate features
-        //        int bestCandidate = -1;
-
-        //        Parallel.For(0, unselected.Count, featureIndex => //foreach (int candidate in unselected)
-        //        {
-        //            // copy the list of current selections as a starting point
-        //            List<int> candidateSet = new List<int>(selected);
-
-        //            // add the current candidate to the candidate set 
-        //            candidateSet.Add(unselected[featureIndex]);
-
-        //            // reduce the dataset to the candidate set
-        //            double[][] Xreduced = reduceDataset(candidateSet.ToArray());
-                    
-        //            // get cross validated predictions using the candidate set
-        //            CrossValidator cv = new CrossValidator(Xreduced, Y, cvFolds, rndSeed);
-        //            double[] thesePredictions = cv.getCvPredictions(learner);// cv.getCvPredictions(learner, cvReps, true);// ***************
-        //            //learner.train(Xreduced, Y);
-        //            //double[] thesePredictions = learner.predict(Xreduced);
-
-        //            double thisFitness = evaluate(Y, thesePredictions);
-                    
-        //            // see if adding this candidate has improved anything
-        //            if ((bestFitness == null) || (thisFitness < bestFitness))
-        //            {
-        //                bestCandidate = unselected[featureIndex];
-        //                bestFitness = thisFitness;
-        //            }
-        //        });
-
-        //        // if none of the candidates improved the fitness, break
-        //        if (bestCandidate == -1)
-        //            break;
-        //        else // otherwise transfer the best candidate to the 'selected' list
-        //        {
-        //            selected.Add(bestCandidate);
-        //            unselected.Remove(bestCandidate);
-        //            foreach (int feature in selected)
-        //            {
-        //                Console.Write(feature + ",");
-        //            }
-        //            Console.Write("[" + bestFitness + "]" + Environment.NewLine);
-
-        //            if (selected.Count >= maxFeatures)
-        //            {
-        //                Console.WriteLine("max number of features reached");
-        //                break;
-        //            }
-        //        }
-        //    }
-
-        //    // return the 'selected' list as an array
-        //    return selected.ToArray();
-        //}
-
+        /// <summary>
+        /// reduce the dataset (supplied during construction) to only selected features
+        /// </summary>
+        /// <param name="selections">indices of selected features</param>
+        /// <returns>the feature-reduced training data</returns>
         public double[][] reduceDataset(int[] selections)
         {
             double[][] xReduced = new double[X.Length][];

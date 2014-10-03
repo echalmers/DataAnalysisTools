@@ -7,6 +7,9 @@ using System.IO;
 
 namespace Modelling
 {
+    /// <summary>
+    ///  class useful for reading and manipulating datasets
+    /// </summary>
     public class DataSet
     {
         bool missingValuesRemoved = false;
@@ -24,10 +27,18 @@ namespace Modelling
         string outputName;
         
         double?[][] x;
+        /// <summary>
+        /// All instance data including null (missing) values
+        /// </summary>
         public double?[][] Xnullable
         {
             get { return x; }
         }
+
+        /// <summary>
+        /// All instance data excluding missing values
+        /// Throws ArgumentNullException if missing values have not been handled using an appropriate method
+        /// </summary>
         public double[][] X
         {
             get
@@ -51,14 +62,25 @@ namespace Modelling
             get { return text; }
         }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public DataSet()
         { }
 
+        /// <summary>
+        /// Construct DataSet object from data stored in a csv file
+        /// </summary>
+        /// <param name="filename">csv file to be read</param>
         public DataSet(string filename)
         {
             fromCsv(filename);
         }
 
+        /// <summary>
+        /// Populate this DataSet object using data stored in a csv file
+        /// </summary>
+        /// <param name="filename">csv file to be read</param>
         public void fromCsv(string filename)
         {
             missingValuesRemoved = false;
@@ -163,6 +185,9 @@ namespace Modelling
             text = textList.ToArray();
         }
 
+        /// <summary>
+        /// Remove all instances with missing values
+        /// </summary>
         public void removeMissing()
         {
             List<double?[]> xList = x.ToList();
@@ -187,6 +212,12 @@ namespace Modelling
             missingValuesRemoved = true;
         }
 
+        /// <summary>
+        /// Return a subset of this DataSet
+        /// </summary>
+        /// <param name="startIndex">Zero-based index of the first instance in the range to return</param>
+        /// <param name="endIndex">Exclusive index of the last instance in the range</param>
+        /// <returns>A new DataSet object containing the requested range of instances</returns>
         public DataSet dataSubset(int startIndex, int endIndex)
         {
             int length = endIndex - startIndex;
@@ -216,6 +247,11 @@ namespace Modelling
             return newSet;
         }
 
+        /// <summary>
+        /// Calculate the maximum value of a feature
+        /// </summary>
+        /// <param name="featureIndex">Index of the feature in the dataset</param>
+        /// <returns>The feature's max value</returns>
         public double featureMax(int featureIndex)
         {
             double? max = null;
@@ -227,6 +263,11 @@ namespace Modelling
             return (double)max;
         }
 
+        /// <summary>
+        /// Calculate the minimum value of a feature
+        /// </summary>
+        /// <param name="featureIndex">Index of the feature in the dataset</param>
+        /// <returns>The feature's minimum value</returns>
         public double featureMin(int featureIndex)
         {
             double? min = null;
@@ -238,6 +279,10 @@ namespace Modelling
             return (double)min;
         }
 
+        /// <summary>
+        /// Calculate the maximum value of the output 
+        /// </summary>
+        /// <returns>The max value</returns>
         public double YMax()
         {
             double? max = null;
@@ -249,6 +294,10 @@ namespace Modelling
             return (double)max;
         }
 
+        /// <summary>
+        /// Calculate the minimum value of the output
+        /// </summary>
+        /// <returns>The min value</returns>
         public double YMin()
         {
             double? min = null;
@@ -259,6 +308,7 @@ namespace Modelling
             }
             return (double)min;
         }
+
 
         private double[][] convertFromNullable(double?[][] nullable)
         {
@@ -277,60 +327,6 @@ namespace Modelling
             return nonNullable;
         }
 
-        //private void readNumericData(string filename)
-        //{
-        //    List<double[]> Xlist = new List<double[]>();
-        //    List<double> Ylist = new List<double>();
-
-        //    StreamReader rdr = new StreamReader(filename);
-
-        //    // read first line
-        //    string line = rdr.ReadLine();
-        //    char[] delimiter = {','};
-        //    string[] fields = line.Split(delimiter);
-            
-        //    // get # of features and feature names from the first line
-        //    featureNames = new string[fields.Length-1];
-
-        //    for (int i = 0; i<fields.Length-1; i++)
-        //    {
-        //        featureNames[i] = fields[i];
-        //    }
-        //    outputName = fields[fields.Length - 1];
-
-        //    // read remainder of lines and get numeric data
-        //    while ((line=rdr.ReadLine())!=null)
-        //    {
-        //        bool incompleteInstance = false;
-        //        double[] thisInstance = new double[featureNames.Length];
-        //        fields = line.Split(delimiter);
-        //        for (int i=0; i<featureNames.Length; i++)
-        //        {
-        //            //****** skip instance if it has missing values
-        //            if (fields[i] == "")
-        //            {
-        //                incompleteInstance = true;
-        //                break;
-        //            }
-        //            //
-        //            if (double.TryParse(fields[i], out thisInstance[i]) == false)
-        //                throw new Exception("error converting to numeric data");
-        //        }
-
-        //        //****** skip instance if it has missing values
-        //        if (incompleteInstance)
-        //            continue;
-        //        //
-        //        Xlist.Add(thisInstance);
-
-        //        double thisOutcome;
-        //        if (double.TryParse(fields[fields.Length-1],out thisOutcome) == false)
-        //            throw new Exception("error converting to numeric data");
-        //        Ylist.Add(thisOutcome);
-        //    }
-
-        //    x = Xlist.ToArray();
-        //    y = Ylist.ToArray();
-        //}
+        
     }
 }

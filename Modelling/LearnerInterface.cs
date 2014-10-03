@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Modelling
 {
+    /// <summary>
+    ///  Interface that all learning algorithms should derive from
+    /// </summary>
     public interface LearnerInterface
     {
         void train(double[][] trainingX, double[] trainingY);

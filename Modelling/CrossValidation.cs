@@ -8,6 +8,9 @@ namespace Modelling
 {
     public delegate double predictionEvaluation(double[] trueY, double[] predictions);
 
+    /// <summary>
+    /// Class useful for performing cross validation
+    /// </summary>
     public class CrossValidator
     {
         bool sequentialFoldAssignments = false;
@@ -27,7 +30,13 @@ namespace Modelling
         List<double>[] YtestSets;
         List<int>[] instancesAssignedToFolds;
 
-
+        /// <summary>
+        /// Construct a new CrossValidator object
+        /// </summary>
+        /// <param name="X">All instance values</param>
+        /// <param name="Y">All output values</param>
+        /// <param name="folds">number of folds</param>
+        /// <param name="rndSeed">Seed for random number generation</param>
         public CrossValidator(double[][] X, double[] Y, int folds, int rndSeed)
         {
             rnd = new Random(rndSeed);
@@ -41,11 +50,25 @@ namespace Modelling
             repartition();
         }
 
+        /// <summary>
+        /// Get a learner's predictions for the supplied instances using cross-validation.
+        /// The returned predictions have the same order as the instances.
+        /// </summary>
+        /// <param name="learner">The learner object</param>
+        /// <returns>The cross-validated predictions</returns>
         public double[] getCvPredictions(LearnerInterface learner)
         {
             return getCvPredictions(learner, false, false);
         }
 
+        /// <summary>
+        /// Get a learner's predictions for the supplied instances using cross-validation.
+        /// The returned predictions have the same order as the instances.
+        /// </summary>
+        /// <param name="learner">The learner object</param>
+        /// <param name="display">Set to true to write progress to the console</param>
+        /// <param name="useParallel">Set to true to run the CV folds in parallel</param>
+        /// <returns>The cross-validated predictions</returns>
         public double[] getCvPredictions(LearnerInterface learner, bool display, bool useParallel)
         {
             double[] predictions = new double[fullX.GetLength(0)];
@@ -87,6 +110,15 @@ namespace Modelling
             return predictions;
         }
 
+        /// <summary>
+        /// Evaluate a learner according to a supplied objective function
+        /// </summary>
+        /// <param name="learner">The learner object</param>
+        /// <param name="eval">The objective function</param>
+        /// <param name="display">Set to true to write progress to the console</param>
+        /// <param name="useParallel">Set to true to run all folds in parallel</param>
+        /// <param name="reps">The total number of repetitions to perform (folds are re-randomized each time)</param>
+        /// <returns></returns>
         public double crossValidate(LearnerInterface learner, predictionEvaluation eval, bool display, bool useParallel, int reps)
         {
             double[] obs = new double[reps];
@@ -100,6 +132,7 @@ namespace Modelling
 
             return obs.Average();
         }
+
 
         private void repartition()
         {
