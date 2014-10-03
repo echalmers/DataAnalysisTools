@@ -12,7 +12,7 @@ namespace GAtest
     /// A simple test program for GeneticAlgorithm and MultiPopulationGA classes.
     /// The test optimizes a 10-dimensional sphere function (the correct solution is a vector of 10 zeros)
     /// The GA uses a population size of 200, while the multi-population GA uses 10 populations of 20.
-    /// Thanks to parallel execution of the populations, the multi-population finds the solution faster.
+    /// Thanks parallel execution of the populations allows the multi-population GA to work faster.
     /// </summary>
     class Program
     {
@@ -21,7 +21,7 @@ namespace GAtest
             int dimensionality = 10;
             double lowerBound = -10;
             double upperBound = 10;
-            double fitnessTol = -0.001;
+            double fitnessTol = -0.01;
             
             // instances of creator, crossover, mutator, selector, & fitness function
             ICreationOperator<double[]> creator = new Creator_DoubleVector(dimensionality, upperBound, lowerBound);
