@@ -15,7 +15,7 @@ namespace GeneticFuzzyModelling
     {
         int numSets = 3;
         int minRules = 1;
-        int maxRules = 7;
+        int maxRules = 3;
         int minRuleLength = 1;
         int maxRuleLength = 5;
         Variable[] variables;

@@ -216,6 +216,50 @@ namespace Modelling
             return newSet;
         }
 
+        public double featureMax(int featureIndex)
+        {
+            double? max = null;
+            foreach(double[] instance in X)
+            {
+                if ((instance[featureIndex] > max) || (max == null))
+                    max = instance[featureIndex];
+            }
+            return (double)max;
+        }
+
+        public double featureMin(int featureIndex)
+        {
+            double? min = null;
+            foreach (double[] instance in X)
+            {
+                if ((instance[featureIndex] < min) || (min == null))
+                    min = instance[featureIndex];
+            }
+            return (double)min;
+        }
+
+        public double YMax()
+        {
+            double? max = null;
+            foreach (double output in Y)
+            {
+                if ((output > max) || (max == null))
+                    max = output;
+            }
+            return (double)max;
+        }
+
+        public double YMin()
+        {
+            double? min = null;
+            foreach (double output in Y)
+            {
+                if ((output < min) || (min == null))
+                    min = output;
+            }
+            return (double)min;
+        }
+
         private double[][] convertFromNullable(double?[][] nullable)
         {
             double[][] nonNullable = new double[nullable.Length][];

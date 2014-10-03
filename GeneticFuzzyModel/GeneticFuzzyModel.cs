@@ -35,7 +35,7 @@ namespace GeneticFuzzyModelling
             set { underlyingPartitions = value; }
         }
 
-        TriVariablePartition outputPartition;
+        TriVariablePartition outputPartition = new TriVariablePartition(0, 1, 3);
         public TriVariablePartition OutputPartition
         {
             get { return outputPartition; }
@@ -78,7 +78,7 @@ namespace GeneticFuzzyModelling
             RouletteSelector select = new RouletteSelector();
             fitnessFn.setData(trainingX, trainingY);
 
-            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, 8, 100);
+            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, 128, 100);
             ga.addCreationOperator(creator);
             ga.addCrossoverOperator(cross);
             ga.addMutationOperator(mutator);
@@ -133,7 +133,7 @@ namespace GeneticFuzzyModelling
             string rules = ruleBase.ToString();
             
             // add partitions
-            string partitions = "";
+            string partitions = "Variable Partitions:" + Environment.NewLine;
             foreach (Variable v in underlyingPartitions.Keys)
             {
                 partitions += v.Name + ": ";
