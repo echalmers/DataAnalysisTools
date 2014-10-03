@@ -37,7 +37,8 @@ namespace GeneticFuzzyModelling
 
             FuzzyRuleBaseModel child = (FuzzyRuleBaseModel)parent.Copy();
 
-            switch(7)//(rnd.Next(6))
+
+            switch(rnd.Next(8))
             {
                 case 0: // delete a rule
                     if (child.RuleBase.Count <= 1)
@@ -118,7 +119,7 @@ namespace GeneticFuzzyModelling
                     Variable propVar = propositionOptions[rnd.Next(propositionOptions.Count)];
 
                     // get the fuzzy set options (remove the one currently in use)
-                    List<FuzzySet> setOptions = child.UnderlyingPartitions[propVar];
+                    List<FuzzySet> setOptions = new List<FuzzySet>(child.UnderlyingPartitions[propVar]);
                     bool removed = setOptions.Remove(child.RuleBase[ruleNum].Antecedents[propVar]);
 
                     // change the set in the selected antecedent to one of the available options
@@ -130,7 +131,7 @@ namespace GeneticFuzzyModelling
                     ruleNum = rnd.Next(child.RuleBase.Count);
                     
                     // get the fuzzy set options (remove the one currently in use)
-                    setOptions = child.OutputPartition;
+                    setOptions = new List<FuzzySet>(child.OutputPartition);
                     removed = setOptions.Remove(child.RuleBase[ruleNum].Consequent);
 
                     // randomly change the consequent set 
@@ -140,6 +141,9 @@ namespace GeneticFuzzyModelling
                 case 6: // mutate an underlying partition
                     Variable partVar = Enumerable.ToArray(child.UnderlyingPartitions.Keys)[rnd.Next(child.UnderlyingPartitions.Count)];
                     int numSets = child.UnderlyingPartitions[partVar].Count;
+                    if (numSets <= 2)
+                        goto case 4;
+
                     double[] corePts = new double[numSets];
                     
                     for (int i=0; i<numSets; i++)
@@ -156,6 +160,9 @@ namespace GeneticFuzzyModelling
 
                 case 7: // mutate the output partition
                     numSets = child.OutputPartition.Count;
+                    if (numSets <= 2)
+                        goto case 5;
+
                     corePts = new double[numSets];
                     
                     for (int i=0; i<numSets; i++)
@@ -171,6 +178,7 @@ namespace GeneticFuzzyModelling
                     break;
             }
 
+           
             return child;
         }
 

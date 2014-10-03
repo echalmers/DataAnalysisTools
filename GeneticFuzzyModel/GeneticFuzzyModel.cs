@@ -78,7 +78,7 @@ namespace GeneticFuzzyModelling
             RouletteSelector select = new RouletteSelector();
             fitnessFn.setData(trainingX, trainingY);
 
-            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, 128, 100);
+            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, 64, 100);
             ga.addCreationOperator(creator);
             ga.addCrossoverOperator(cross);
             ga.addMutationOperator(mutator);

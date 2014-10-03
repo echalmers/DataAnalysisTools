@@ -75,7 +75,7 @@ namespace FuzzyInference
                 output += andedActivation * rule.Consequent.RepresentativePoint(andedActivation);
                 sumActivation += andedActivation;
             }
-            output /= sumActivation;
+            output /= sumActivation + 0.0001; // add 0.0001 to avoid divide by 0
 
             return output;
         }
