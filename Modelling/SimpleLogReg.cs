@@ -18,7 +18,20 @@ namespace Modelling
     public class LogReg : LearnerInterface
     {
         public double[] B;
+
+        bool includeConstantTerm = true;
+        public bool IncludeConstantTerm
+        {
+            get { return includeConstantTerm; }
+            set { includeConstantTerm = value; }
+        }
+
         bool useApproxLogisticFn = true;
+        public bool UseApproxLogisticFn
+        {
+            get { return useApproxLogisticFn; }
+            set { useApproxLogisticFn = value; }
+        }
 
         /// <summary>
         /// Tune the B coefficients to minimize a user-supplied objective function
@@ -28,11 +41,13 @@ namespace Modelling
         /// <param name="obFn">Objective function to be minimized</param>
         public void train(double[][] trainingX, double[] trainingY, predictionEvaluation obFn)
         {
+            // get the starting B - previous values if this model was previously trained, new double[] otherwise
+            int numCoeffs = includeConstantTerm ? trainingX[0].Length + 1 : trainingX[0].Length;
             if ((B == null) || (B.Length == 0))
-                B = new double[trainingX[0].Length];
+                B = new double[numCoeffs];
             else if (trainingX[0].Length != B.Length)
             {
-                double[] newB = new double[trainingX[0].Length];
+                double[] newB = new double[numCoeffs];
                 Array.Copy(B, newB, Math.Min(B.Length, newB.Length));
                 B = newB;
             }
@@ -69,23 +84,7 @@ namespace Modelling
 
             for (int i = 0; i < testPts; i++)
             {
-                // decide whether the model includes a constant term
-                if (false)//(includeConstTerm)
-                {
-                    // append the leading one
-                    double[] Xappend = new double[X[i].Length + 1];
-                    Xappend[0] = 1;
-                    for (int j = 0; j < X[i].Length; j++)
-                    {
-                        Xappend[j + 1] = X[i][j];
-                    }
-                    // predict
-                    predictions[i] = logisticFn(b, Xappend, useApproxLogisticFn);
-                }
-                else
-                {
-                    predictions[i] = logisticFn(b, X[i], useApproxLogisticFn);
-                }
+                predictions[i] = logisticFn(b, X[i], useApproxLogisticFn);
             }
 
             return predictions;
@@ -111,10 +110,15 @@ namespace Modelling
         private double logisticFn(double[] B, double[] X, bool useApproximate)
         {
             double t = 0;
-            for (int i = 0; i < B.Length; i++)
+            
+            for (int i = 0; i < X.Length; i++)
             {
                 t += (B[i] * X[i]);
             }
+
+            // const term is last element of B
+            if (includeConstantTerm)
+                t += B[X.Length];
 
             if (useApproximate)
                 return 0.5 * t / (1 + Math.Abs(t)) + 0.5;
@@ -149,6 +153,7 @@ namespace Modelling
                 Array.Copy(B, newLogReg.B, B.Length);
             }
             newLogReg.useApproxLogisticFn = useApproxLogisticFn ? true : false;
+            newLogReg.includeConstantTerm = includeConstantTerm ? true : false;
             return newLogReg;
         }
 
