@@ -14,6 +14,7 @@ namespace Modelling
     /// nice flexibility.
     /// A nelder-mead algorithm tunes the B coefficients to minimize the user-supplied objective function. If no objective
     /// function is supplied, the algorithm maximizes likelihood(B)
+    /// WARNING: the nelder-mead *may* be unsuitable for some low-dimensionality (i.e. one predictor) situations.
     /// </summary>
     public class LogReg : LearnerInterface
     {

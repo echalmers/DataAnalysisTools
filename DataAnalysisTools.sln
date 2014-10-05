@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticFuzzyModelTest", "Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAtest", "GAtest\GAtest.csproj", "{DC789E0B-0DDE-496E-AAD8-EF91D4C974CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogRegTest", "LogRegTest\LogRegTest.csproj", "{EB07DED9-A0AB-4AFB-BD2C-7D1BE71D77F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{DC789E0B-0DDE-496E-AAD8-EF91D4C974CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC789E0B-0DDE-496E-AAD8-EF91D4C974CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC789E0B-0DDE-496E-AAD8-EF91D4C974CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB07DED9-A0AB-4AFB-BD2C-7D1BE71D77F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB07DED9-A0AB-4AFB-BD2C-7D1BE71D77F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB07DED9-A0AB-4AFB-BD2C-7D1BE71D77F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB07DED9-A0AB-4AFB-BD2C-7D1BE71D77F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

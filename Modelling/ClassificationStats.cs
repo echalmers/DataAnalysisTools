@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Modelling
 {
+    /// <summary>
+    /// Object containing various statistics 
+    /// Will be expanded in the future...
+    /// </summary>
     public class ClassificationStats
     {
         #region attributes
@@ -36,6 +40,15 @@ namespace Modelling
             get { return brierScore; }
             set { brierScore = value; }
         }
+
+        double mcc;
+
+        public double MCC
+        {
+            get { return mcc; }
+            set { mcc = value; }
+        }
+
         #endregion
 
         public ClassificationStats(double[] TrueY, double[] PredictedY)
@@ -62,6 +75,8 @@ namespace Modelling
             // calculate accuracy
             accuracy = (double)(tp + tn) / trueY.Length;
 
+            // calculate mathew's correlation coefficient
+            mcc = (tp * tn - fp * fn) / Math.Sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn));
         }
 
 
