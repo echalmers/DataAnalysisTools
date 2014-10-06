@@ -14,7 +14,7 @@ A versatile genetic algorithm which can accomodate genomes of any type (support 
 
 3) GeneticFuzzyModel
 
-The genetic fuzzy model consists of a fuzzy rule base used for fuzzy inference. The rule base - including the rules themselves and the underlying fuzzy sets - is generated using a genetic algorithm. The genetic algorithm tunes the rule base using a user-supplied set of training data. Currently, the fuzzy rule base only supports one defuzzification method: weighted average. See the GeneticFuzzyModelTest program for an example.
+The genetic fuzzy model consists of a fuzzy rule base used for fuzzy inference. The rule base - including the rules themselves and the underlying fuzzy sets - is optimized by a genetic algorithm given a user-supplied set of training data. Currently, the fuzzy rule base only supports one defuzzification method: weighted average. See the GeneticFuzzyModelTest program for an example.
 
 
 The repository is a work in progress. Exception handling needs to be added, and there are other improvements to be made as well. I welcome any feedback or suggestions!
