@@ -35,6 +35,12 @@ namespace GeneticFuzzyModelling
             set { populationSize = value; }
         }
 
+        int numSets;
+        public int NumSets
+        {
+            get { return numSets; }
+            set { numSets = value; }
+        }
 
         FuzzyRuleBase ruleBase = new FuzzyRuleBase();
         public FuzzyRuleBase RuleBase
@@ -59,7 +65,7 @@ namespace GeneticFuzzyModelling
 
         Variable[] variables;
         Variable outputVariable;
-        int numSets;
+        
         FuzzyModelFitnessFn fitnessFn;
 
         public FuzzyRuleBaseModel()
