@@ -54,7 +54,7 @@ namespace GeneticFuzzyModelTest
 
             
             // instantiate the fuzzy rule base model
-            modelFitnessEvaluator fitnessFn = new modelFitnessEvaluator(testX, testY);
+            modelFitnessEvaluator fitnessFn = new modelFitnessEvaluator();
             FuzzyRuleBaseModel model = new FuzzyRuleBaseModel(new Variable[] { x1, x2 }, y, numSets, fitnessFn);
             
 
@@ -84,15 +84,12 @@ namespace GeneticFuzzyModelTest
             double[][] xData;
             double[] yData;
 
-            public void setData(double[][] dummy1, double[] dummy2)
-            { }
-
-            public modelFitnessEvaluator(double[][] X, double[] Y)
+            public void setData(double[][] X, double[] Y)
             {
                 xData = X;
                 yData = Y;
             }
-
+            
             public double CalculateFitness(FuzzyRuleBaseModel model)
             {
                 // calculate the mean absolute error of the model's predictions

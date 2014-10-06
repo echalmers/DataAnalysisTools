@@ -11,6 +11,12 @@ namespace GeneticFuzzyModelling
 {
     public interface FuzzyModelFitnessFn : IFitnessFunction<FuzzyRuleBaseModel>
     {
+        /// <summary>
+        /// This method will be called during the training process, to set the training data
+        /// Fitness evaluation should use the data supplied by this method
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
         void setData(double[][] X, double[] Y);
     }
 
