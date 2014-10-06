@@ -21,6 +21,21 @@ namespace GeneticFuzzyModelling
     {
         int maxGaIterations = 10;
 
+        int numPopulations = 64;
+        public int NumPopulations
+        {
+            get { return numPopulations; }
+            set { numPopulations = value; }
+        }
+
+        int populationSize = 100;
+        public int PopulationSize
+        {
+            get { return populationSize; }
+            set { populationSize = value; }
+        }
+
+
         FuzzyRuleBase ruleBase = new FuzzyRuleBase();
         public FuzzyRuleBase RuleBase
         {
@@ -78,7 +93,7 @@ namespace GeneticFuzzyModelling
             RouletteSelector select = new RouletteSelector();
             fitnessFn.setData(trainingX, trainingY);
 
-            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, 64, 100);
+            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, numPopulations, populationSize);
             ga.addCreationOperator(creator);
             ga.addCrossoverOperator(cross);
             ga.addMutationOperator(mutator);
