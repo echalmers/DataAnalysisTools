@@ -1,7 +1,7 @@
 DataAnalysisTools
 =================
 
-This repository contains a few tools I have written and found useful in different predictive modelling tasks. I have been asked if it contains the code I use to predict UFC fight winners - it does not. Sorry :)
+This repository contains a few C# tools I have written and found useful in different predictive modelling tasks. I have been asked if it contains the code I use to predict UFC fight winners - it does not. Sorry :)
 There are three main contributions here:
 
 1) Modelling
