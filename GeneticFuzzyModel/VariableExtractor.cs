@@ -8,7 +8,7 @@ using FuzzyInference;
 
 namespace GeneticFuzzyModelling
 {
-    class VariableExtractor
+    public class VariableExtractor
     {
         public Variable[] extractVariables(Modelling.DataSet data)
         {
