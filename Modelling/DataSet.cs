@@ -25,6 +25,11 @@ namespace Modelling
             get { return textFieldNames; }
         }
         string outputName;
+        public string OutputName
+        {
+            get { return outputName; }
+            set { outputName = value; }
+        }
         
         double?[][] x;
         /// <summary>

@@ -23,7 +23,7 @@ namespace GeneticFuzzyModelling
 
         public Variable extractOutputVariable(Modelling.DataSet data)
         {
-            return new Variable(0, "output", data.YMax(), data.YMin());
+            return new Variable(0, data.OutputName, data.YMax(), data.YMin());
         }
     }
 }
