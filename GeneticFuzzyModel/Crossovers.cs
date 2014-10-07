@@ -23,6 +23,7 @@ namespace GeneticFuzzyModelling
         public FuzzyRuleBaseModel Crossover(FuzzyRuleBaseModel parent1, FuzzyRuleBaseModel parent2, Random rnd)
         {
             FuzzyRuleBaseModel child = new FuzzyRuleBaseModel();
+            child.FitnessFn = parent1.FitnessFn;
 
             // average the underlying fuzzy partitions
             foreach(Variable v in parent1.UnderlyingPartitions.Keys)

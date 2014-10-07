@@ -95,7 +95,7 @@ namespace GeneticFuzzyModelling
 
                     // add one
                     Variable addedVar = addVariableChoices[rnd.Next(addVariableChoices.Count)];
-                    FuzzySet addedSet = child.UnderlyingPartitions[addedVar][rnd.Next(child.UnderlyingPartitions.Count)];
+                    FuzzySet addedSet = child.UnderlyingPartitions[addedVar][rnd.Next(child.UnderlyingPartitions[addedVar].Count)];
                     child.RuleBase[ruleNum].addAntecedent(addedVar, addedSet);
                     break;
 

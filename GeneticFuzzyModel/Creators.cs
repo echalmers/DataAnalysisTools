@@ -20,6 +20,7 @@ namespace GeneticFuzzyModelling
         int maxRuleLength = 5;
         Variable[] variables;
         Variable outputVariable;
+        FuzzyModelFitnessFn fitFn;
 
         #region constructors
 
@@ -29,12 +30,13 @@ namespace GeneticFuzzyModelling
         /// <param name="Variables">Array of variable objects allowed in the fuzzy rule base</param>
         /// <param name="OutputVariable">The object representing the output variable</param>
         /// <param name="NumSets">The number of fuzzy sets to use when partitioning variables (must be >=2)</param>
-        public Creator_FuzzyRuleBase_Triangle(Variable[] Variables, Variable OutputVariable, int NumSets)
+        public Creator_FuzzyRuleBase_Triangle(FuzzyModelFitnessFn FitFn, Variable[] Variables, Variable OutputVariable, int NumSets)
         {
             numSets = NumSets;
             variables = Variables;
             outputVariable = OutputVariable;
             maxRuleLength = Math.Min(maxRuleLength, Variables.Length);
+            fitFn = FitFn;
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace GeneticFuzzyModelling
         /// <param name="MinRuleLength">Minimum number of antecedents in a rule</param>
         /// <param name="MaxRuleLength">Maximum number of antecedents in a rule</param>
         /// <param name="NumSets">The number of fuzzy sets to use when partitioning variables (must be >=2)</param>
-        public Creator_FuzzyRuleBase_Triangle(Variable[] Variables, Variable OutputVariable, int MinRules, int MaxRules, int MinRuleLength, int MaxRuleLength, int NumSets)        
+        public Creator_FuzzyRuleBase_Triangle(FuzzyModelFitnessFn FitFn, Variable[] Variables, Variable OutputVariable, int MinRules, int MaxRules, int MinRuleLength, int MaxRuleLength, int NumSets)        
         {
             numSets = NumSets;
             variables = Variables;
@@ -56,6 +58,7 @@ namespace GeneticFuzzyModelling
             maxRules = MaxRules;
             minRuleLength = MinRuleLength;
             maxRuleLength = Math.Min(MaxRuleLength, Variables.Length);
+            fitFn = FitFn;
         }
         #endregion
 
@@ -113,6 +116,8 @@ namespace GeneticFuzzyModelling
 
             rb.UnderlyingPartitions = underlyingPartitions;
             rb.OutputPartition = outPartition;
+
+            rb.FitnessFn = (FuzzyModelFitnessFn)fitFn.Clone();
 
             return rb;
         }

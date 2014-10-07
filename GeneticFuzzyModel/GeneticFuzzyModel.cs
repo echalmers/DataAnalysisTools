@@ -71,8 +71,13 @@ namespace GeneticFuzzyModelling
 
         Variable[] variables;
         Variable outputVariable;
-        
+
         FuzzyModelFitnessFn fitnessFn;
+        public FuzzyModelFitnessFn FitnessFn
+        {
+            get { return fitnessFn; }
+            set { fitnessFn = value; }
+        }
 
         public FuzzyRuleBaseModel()
         { }
@@ -99,7 +104,7 @@ namespace GeneticFuzzyModelling
         /// <param name="trainingY">Training outputs</param>
         public void train(double[][] trainingX, double[] trainingY)
         {
-            Creator_FuzzyRuleBase_Triangle creator = new Creator_FuzzyRuleBase_Triangle(variables, outputVariable, numSets);
+            Creator_FuzzyRuleBase_Triangle creator = new Creator_FuzzyRuleBase_Triangle(fitnessFn, variables, outputVariable, numSets);
             Mutator_FuzzyRuleBase_Triangle mutator = new Mutator_FuzzyRuleBase_Triangle();
             Crossover_FuzzyRuleBase_Triangle cross = new Crossover_FuzzyRuleBase_Triangle();
             RouletteSelector select = new RouletteSelector();
@@ -232,6 +237,8 @@ namespace GeneticFuzzyModelling
             cloned.numSets = numSets;
             cloned.populationSize = populationSize;
             cloned.numPopulations = numPopulations;
+
+            cloned.fitnessFn = (FuzzyModelFitnessFn)fitnessFn.Clone();
 
             return cloned;
         }
