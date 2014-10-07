@@ -226,6 +226,13 @@ namespace GeneticFuzzyModelling
             cloned.underlyingPartitions = new Dictionary<Variable, TriVariablePartition>(underlyingPartitions);
             cloned.outputPartition = new TriVariablePartition(outputPartition);
 
+            cloned.variables = variables;
+            cloned.outputVariable = outputVariable;
+
+            cloned.numSets = numSets;
+            cloned.populationSize = populationSize;
+            cloned.numPopulations = numPopulations;
+
             return cloned;
         }
 
