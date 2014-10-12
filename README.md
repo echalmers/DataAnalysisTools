@@ -5,7 +5,7 @@ This repository contains a few C# tools I have written and found useful in diffe
 
 1) Modelling
 
-A few general-purpose tools for use in pattern recognition / predictive modelling tasks. Included so far are classes for cross-validation, feature selection, dataset manipulation, and a modified logistic regression. See the LogRegTest project for an example.
+A few general-purpose tools for use in pattern recognition / predictive modelling tasks. Included so far are classes for cross-validation, feature selection, dataset manipulation, calculating calibration curves, and a modified logistic regression. See the LogRegTest project for an example.
 
 2) GeneticAlgorithm
 
