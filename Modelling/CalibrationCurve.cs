@@ -8,6 +8,7 @@ namespace Modelling
     /// <summary>
     /// Class useful for finding a predictor's calibration curve, given a set of it's predictions and the corresponding true outcomes.
     /// </summary>
+    [Serializable()]
     public class CalibrationCurve
     {
         double resolution = 0.05;
