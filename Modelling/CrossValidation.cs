@@ -24,10 +24,12 @@ namespace Modelling
         Random rnd;
         double[][] fullX;
         double[] fullY;
+        
         List<double[]>[] XtrainingSets;
         List<double>[] YtrainingSets;
         List<double[]>[] XtestSets;
         List<double>[] YtestSets;
+
         List<int>[] instancesAssignedToFolds;
 
         /// <summary>
@@ -194,6 +196,26 @@ namespace Modelling
                     }
                 }
             }
+        }
+
+        public double[][] trainingX(int fold)
+        {
+            return XtrainingSets[fold].ToArray();
+        }
+
+        public double[] trainingY(int fold)
+        {
+            return YtrainingSets[fold].ToArray();
+        }
+
+        public double[][] testX(int fold)
+        {
+            return XtestSets[fold].ToArray();
+        }
+
+        public double[] testY(int fold)
+        {
+            return YtestSets[fold].ToArray();
         }
     }
 }
