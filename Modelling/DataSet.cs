@@ -218,7 +218,7 @@ namespace Modelling
         }
 
         /// <summary>
-        /// Return a subset of this DataSet
+        /// Return a subset of the instances in this DataSet
         /// </summary>
         /// <param name="startIndex">Zero-based index of the first instance in the range to return</param>
         /// <param name="endIndex">Exclusive index of the last instance in the range</param>
@@ -244,9 +244,50 @@ namespace Modelling
 
             for (int i=0; i<length; i++)
             {
-                newSet.text[i] = text[i + startIndex];
-                newSet.x[i] = x[i + startIndex];
+                newSet.text[i] = new string[text[i].Length]; Array.Copy(text[i + startIndex], newSet.text[i], text[i + startIndex].Length);
+                newSet.x[i] = new double?[x[i + startIndex].Length]; Array.Copy(x[i + startIndex], newSet.x[i], x[i + startIndex].Length);
                 newSet.y[i] = y[i + startIndex];
+            }
+
+            return newSet;
+        }
+
+        /// <summary>
+        /// Return a subset of the features in this dataset
+        /// </summary>
+        /// <param name="includedFeatures">Zero-based indices of the features to include</param>
+        /// <returns>A new DataSet object containing the requested features</returns>
+        public DataSet featureSubset(int[] includedFeatures)
+        {
+            DataSet newSet = new DataSet();
+            newSet.missingValuesRemoved = missingValuesRemoved ? true : false;
+
+            newSet.textFieldNames = new string[textFieldNames.Length];
+            Array.Copy(textFieldNames, newSet.textFieldNames, textFieldNames.Length);
+
+            newSet.outputName = String.Copy(outputName);
+
+            // get the included feature names
+            newSet.featureNames = new string[includedFeatures.Length];
+            for (int i = 0; i < includedFeatures.Length; i++ )
+            {
+                newSet.featureNames[i] = featureNames[includedFeatures[i]];
+            }
+
+            // copy the actual data
+            newSet.text = new string[text.Length][];
+            newSet.x = new double?[x.Length][];
+            newSet.y = new double[y.Length];
+
+            for (int i = 0; i < x.Length; i++ )
+            {
+                newSet.text[i] = new string[text[i].Length]; Array.Copy(text[i], newSet.text[i], text[i].Length);
+                newSet.x[i] = new double?[includedFeatures.Length];
+                for (int j=0; j<includedFeatures.Length; j++)
+                {
+                    newSet.x[i][j] = x[i][includedFeatures[j]];
+                }
+                newSet.y[i] = y[i];
             }
 
             return newSet;
