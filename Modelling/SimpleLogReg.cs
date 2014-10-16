@@ -35,13 +35,32 @@ namespace Modelling
             set { useApproxLogisticFn = value; }
         }
 
+        predictionEvaluation objectiveFn;
+
+        /// <summary>
+        /// Construct a new LogReg object
+        /// </summary>
+        public LogReg()
+        {
+            objectiveFn = likelihoodObjective;
+        }
+
+        /// <summary>
+        /// Construct a new LogReg object
+        /// </summary>
+        /// <param name="ObjectiveFn">delegate to the objective function to be used</param>
+        public LogReg(predictionEvaluation ObjectiveFn)
+        {
+            objectiveFn = ObjectiveFn;
+        }
+
         /// <summary>
         /// Tune the B coefficients to minimize a user-supplied objective function
         /// </summary>
         /// <param name="trainingX">Training instances</param>
         /// <param name="trainingY">Training responses</param>
         /// <param name="obFn">Objective function to be minimized</param>
-        public void train(double[][] trainingX, double[] trainingY, predictionEvaluation obFn)
+        public void train(double[][] trainingX, double[] trainingY)
         {
             // get the starting B - previous values if this model was previously trained, new double[] otherwise
             int numCoeffs = includeConstantTerm ? trainingX[0].Length + 1 : trainingX[0].Length;
@@ -55,7 +74,7 @@ namespace Modelling
             }
             
             //var solution = NelderMeadSolver.Solve(b => obFn(trainingX, trainingY, b), B);//, bLower, bUpper); 
-            var solution = NelderMeadSolver.Solve(b => obFn(trainingY, predict(trainingX, b)), B);//, bLower, bUpper); 
+            var solution = NelderMeadSolver.Solve(b => objectiveFn(trainingY, predict(trainingX, b)), B);//, bLower, bUpper); 
             for (int i=0; i<B.Length; i++)
             {
                 B[i] = solution.GetValue(i);
@@ -63,15 +82,6 @@ namespace Modelling
             
         }
 
-        /// <summary>
-        /// Tune the B coefficients to maximize likelihood
-        /// </summary>
-        /// <param name="trainingX">Training instances</param>
-        /// <param name="trainingY">Training responses</param>
-        public void train(double[][] trainingX, double[] trainingY)
-        {
-            train(trainingX, trainingY, likelihoodObjective);
-        }
 
         /// <summary>
         /// Predict responses
