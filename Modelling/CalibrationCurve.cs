@@ -69,7 +69,7 @@ namespace Modelling
                     resultingOutcomes[p] += (thisInstanceWeight * trueOut[i]);
                 }
 
-                curve.Add(p, resultingOutcomes[p] / contributingInstances[p]);
+                curve.Add(p, resultingOutcomes[p] / (contributingInstances[p]+0.001));
             }
         }
 

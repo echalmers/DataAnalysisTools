@@ -31,6 +31,10 @@ namespace Modelling
         List<double>[] YtestSets;
 
         List<int>[] instancesAssignedToFolds;
+        public List<int>[] InstancesAssignedToFolds
+        {
+            get { return instancesAssignedToFolds; }
+        }
 
         /// <summary>
         /// Construct a new CrossValidator object

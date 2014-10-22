@@ -67,7 +67,7 @@ namespace GeneticFuzzyModelTest
 
             // display the results
             Console.WriteLine("Training time is " + sw.Elapsed.TotalSeconds + "s");
-            Console.WriteLine("Mean square error (on training data): " + (-fitnessFn.CalculateFitness(model)).ToString());
+            Console.WriteLine("Mean square error (on training data): " + (-model.optimizedFitness).ToString());
             Console.WriteLine(Environment.NewLine + "Rule-base used to generate data:");
             Console.Write(rb.ToString());
 
@@ -90,19 +90,24 @@ namespace GeneticFuzzyModelTest
                 yData = Y;
             }
             
-            public double CalculateFitness(FuzzyRuleBaseModel model)
+            public double[] CalculateFitness(FuzzyRuleBaseModel[] models)
             {
-                // calculate the mean absolute error of the model's predictions
-                double[] predictions = model.predict(xData);
-                double mse = 0;
-                for (int i=0; i<predictions.Length; i++)
-                {
-                    //mse += Math.Abs(predictions[i] - evaluationData.Y[i]);
-                    mse += (predictions[i] - yData[i]) * (predictions[i] - yData[i]);
-                }
+                double[] fitness = new double[models.Length];
 
-                // the model maximizes fitness, so return the negative error
-                return -mse / predictions.Length;
+                for (int i = 0; i < models.Length; i++)
+                {
+                    // calculate the mean square error of the model's predictions
+                    double[] predictions = models[i].predict(xData);
+                    double mse = 0;
+                    for (int j = 0; j < predictions.Length; j++)
+                    {
+                        mse += (predictions[j] - yData[j]) * (predictions[j] - yData[j]);
+                    }
+
+                    // the model maximizes fitness, so return the negative error
+                    fitness[i] = -mse / predictions.Length;
+                }
+                return fitness;
             }
 
             public object Clone()

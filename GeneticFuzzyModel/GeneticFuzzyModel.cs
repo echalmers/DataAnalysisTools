@@ -49,6 +49,8 @@ namespace GeneticFuzzyModelling
             set { numSets = value; }
         }
 
+        MultiPopulationGA<FuzzyRuleBaseModel> ga;
+
         FuzzyRuleBase ruleBase = new FuzzyRuleBase();
         public FuzzyRuleBase RuleBase
         {
@@ -78,6 +80,11 @@ namespace GeneticFuzzyModelling
         {
             get { return fitnessFn; }
             set { fitnessFn = value; }
+        }
+
+        public double optimizedFitness
+        {
+            get { return ga.OptimizedFitness; }
         }
 
         public FuzzyRuleBaseModel()
@@ -111,7 +118,7 @@ namespace GeneticFuzzyModelling
             RouletteSelector select = new RouletteSelector();
             fitnessFn.setData(trainingX, trainingY);
 
-            MultiPopulationGA<FuzzyRuleBaseModel> ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, numPopulations, populationSize);
+            ga = new MultiPopulationGA<FuzzyRuleBaseModel>(fitnessFn, numPopulations, populationSize);
             ga.addCreationOperator(creator);
             ga.addCrossoverOperator(cross);
             ga.addMutationOperator(mutator);
@@ -120,13 +127,13 @@ namespace GeneticFuzzyModelling
 
             ga.iterate(5);
             ga.migrate(0.15);
-            double bestFitness = fitnessFn.CalculateFitness(ga.OptimizedIndividual);
+            double bestFitness = ga.OptimizedFitness; //fitnessFn.CalculateFitness(ga.OptimizedIndividual);
 
             for (int i = 0; i < maxGaIterations-1; i++)
             {
                 ga.iterate(5);
                 ga.migrate(0.15);
-                double temp = fitnessFn.CalculateFitness(ga.OptimizedIndividual);
+                double temp = ga.OptimizedFitness; //fitnessFn.CalculateFitness(ga.OptimizedIndividual);
                 if (temp == bestFitness)
                 {
                     break;

@@ -28,6 +28,6 @@ namespace EvolutionaryOptimization
 
     public interface IFitnessFunction<T> : ICloneable
     {
-        double CalculateFitness(T individual);
+        double[] CalculateFitness(T[] individual);
     }
 }

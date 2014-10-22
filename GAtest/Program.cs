@@ -43,7 +43,7 @@ namespace GAtest
             for (int i=0; i<100; i++)
             {
                 solution = GA.iterate(5);
-                fitness = fitFn.CalculateFitness(solution);
+                fitness = GA.fitnessOf(solution);
                 if (fitness > fitnessTol)
                     break;
             }
@@ -77,7 +77,7 @@ namespace GAtest
             for (int i = 0; i < 100; i++)
             {
                 solution = multiGA.iterate(5);
-                fitness = fitFn.CalculateFitness(solution);
+                fitness = multiGA.OptimizedFitness;
                 if (fitness > fitnessTol)
                     break;
             }
@@ -102,12 +102,15 @@ namespace GAtest
         /// </summary>
         class fitnessFn : IFitnessFunction<double[]>
         {
-            public double CalculateFitness(double[] individual)
+            public double[] CalculateFitness(double[][] individuals)
             {
-                double fitness = 0;
-                foreach(double d in individual)
+                double[] fitness = new double[individuals.Length];
+                for (int i = 0; i < fitness.Length; i++)
                 {
-                    fitness -= (d * d);
+                    foreach (double d in individuals[i])
+                    {
+                        fitness[i] -= (d * d);
+                    }
                 }
                 return fitness;
             }

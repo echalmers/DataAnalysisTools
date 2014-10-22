@@ -110,8 +110,8 @@ namespace EvolutionaryOptimization
             for (int i=0; i<populationSize; i++)
             {
                 population[i] = creationOperator.CreateRandomIndividual(rnd);
-                fitness[i] = fitnessFunction.CalculateFitness(population[i]);
             }
+            fitness = fitnessFunction.CalculateFitness(population);
         }
         
         /// <summary>
@@ -145,13 +145,13 @@ namespace EvolutionaryOptimization
                 // move elite individuals (best individual always moves)
                 bestIndividualIndex = fitness.ToList().IndexOf(fitness.Max());
                 newPopulation[0] = population[bestIndividualIndex];
-                newFitness[0] = fitness[bestIndividualIndex];
+                //newFitness[0] = fitness[bestIndividualIndex];
 
                 int[] eliteIndeces = selectionOperator.Select((double[])fitness.Clone(), eliteCount-1, rnd);
                 for (int i = 0; i < eliteCount-1; i++)
                 {
                     newPopulation[i+1] = population[eliteIndeces[i]];
-                    newFitness[i+1] = fitness[eliteIndeces[i]];
+                    //newFitness[i+1] = fitness[eliteIndeces[i]];
                 }
 
                 // create mutations and crossovers
@@ -162,16 +162,18 @@ namespace EvolutionaryOptimization
                         int[] parentIndeces = selectionOperator.Select(fitness, 2, rnd);
                         T child = crossoverOperator.Crossover(population[parentIndeces[0]], population[parentIndeces[1]], rnd);
                         newPopulation[i] = child;
-                        newFitness[i] = fitnessFunction.CalculateFitness(child);
+                        //newFitness[i] = fitnessFunction.CalculateFitness(new T[1] { child })[0];
                     }
                     else // do a mutation
                     {
                         int[] parentIndex = selectionOperator.Select(fitness, 1, rnd);
                         T child = mutationOperator.Mutate(population[parentIndex[0]], rnd);
                         newPopulation[i] = child;
-                        newFitness[i] = fitnessFunction.CalculateFitness(child);
+                        //newFitness[i] = fitnessFunction.CalculateFitness(new T[1] { child })[0];
                     }
                 }
+                // calculate fitness for the new individuals
+                newFitness = fitnessFunction.CalculateFitness(newPopulation);
 
                 // implement the new population
                 population = newPopulation;
@@ -183,6 +185,20 @@ namespace EvolutionaryOptimization
             double maxFitness = fitness.Max();
             bestIndividualIndex = fitness.ToList().IndexOf(maxFitness);
             return population[bestIndividualIndex]; ;
+        }
+
+        /// <summary>
+        /// Look up the fitness of an individual in the population
+        /// </summary>
+        /// <param name="individual">the individual whos fitness is wanted</param>
+        /// <returns>the fitness of the individual if they exist in the population, NaN otherwise</returns>
+        public double fitnessOf(T individual)
+        {
+            int index = Array.IndexOf(population, individual);
+            if (index == -1)
+                return double.NaN;
+            else
+                return fitness[index];
         }
     }
 
@@ -203,6 +219,11 @@ namespace EvolutionaryOptimization
         public T OptimizedIndividual
         {
             get { return optimizedIndividual; }
+        }
+        double optimizedFitness;
+        public double OptimizedFitness
+        {
+            get { return optimizedFitness; }
         }
 
         Random rnd = new Random();
@@ -307,7 +328,7 @@ namespace EvolutionaryOptimization
             Parallel.For(0, numPopulations, i =>
                 {
                     bestIndividuals[i] = GAs[i].iterate(generations);
-                    bestFitnesses[i] = fitnessFunction.CalculateFitness(bestIndividuals[i]);
+                    bestFitnesses[i] = GAs[i].fitnessOf(bestIndividuals[i]); //fitnessFunction.CalculateFitness(new T[1] { bestIndividuals[i] })[0];
                 });
 
             //for (int i = 0; i < numPopulations; i++)
@@ -318,6 +339,7 @@ namespace EvolutionaryOptimization
 
             int bestIndex = bestFitnesses.ToList().IndexOf(bestFitnesses.Max());
             optimizedIndividual = bestIndividuals[bestIndex];
+            optimizedFitness = bestFitnesses[bestIndex];
             return bestIndividuals[bestIndex];
         }
 
