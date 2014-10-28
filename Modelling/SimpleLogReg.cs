@@ -147,9 +147,8 @@ namespace Modelling
         private double likelihoodObjective(double[] trainingY, double[] predictions)
         {
             double ob = 0;
-            for (int i=0; i<trainingY.Length; i++)
+            for (int i = 0; i < trainingY.Length; i++)
             {
-                //ob += (trainingY[i] - predictions[i]) * (trainingY[i] - predictions[i]);
                 ob -= predictions[i] > 0.5 ? (trainingY[i] * (predictions[i])) : ((1 - trainingY[i]) * (1 - predictions[i]));
             }
             return ob / trainingY.Length;
@@ -159,6 +158,7 @@ namespace Modelling
         public LearnerInterface Copy()
         {
             LogReg newLogReg = new LogReg();
+            newLogReg.objectiveFn = this.objectiveFn;
             if ((B != null) && (B.Length > 0))
             {
                 newLogReg.B = new double[B.Length];
