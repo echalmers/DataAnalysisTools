@@ -62,16 +62,9 @@ namespace Modelling
         /// <param name="obFn">Objective function to be minimized</param>
         public void train(double[][] trainingX, double[] trainingY)
         {
-            // get the starting B - previous values if this model was previously trained, new double[] otherwise
+            // initialize B 
             int numCoeffs = includeConstantTerm ? trainingX[0].Length + 1 : trainingX[0].Length;
-            if ((B == null) || (B.Length == 0))
-                B = new double[numCoeffs];
-            else if (trainingX[0].Length != B.Length)
-            {
-                double[] newB = new double[numCoeffs];
-                Array.Copy(B, newB, Math.Min(B.Length, newB.Length));
-                B = newB;
-            }
+            B = new double[numCoeffs];
             
             //var solution = NelderMeadSolver.Solve(b => obFn(trainingX, trainingY, b), B);//, bLower, bUpper); 
             var solution = NelderMeadSolver.Solve(b => objectiveFn(trainingY, predict(trainingX, b)), B);//, bLower, bUpper); 

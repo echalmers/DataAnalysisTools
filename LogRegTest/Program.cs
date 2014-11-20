@@ -14,31 +14,43 @@ namespace LogRegTest
     {
         static void Main(string[] args)
         {
-            // generate some test data: two classes drawn from multivariate
+            // generate some test data: two classes drawn from 'd'-dimensional
             // normal distributions with identity covariances, one with mean
             // x1 = x2 ... = xd = -2, the other with mean x1 = x2...=xd = 1.
+            // an addtional 'k' features which are just random noise are added.
             int d = 5;
+            int k = 5;
             int n = 100;
-            NormalRandom rnd = new NormalRandom();
+            NormalRandom normRnd = new NormalRandom();
+            Random uniformRnd = new Random();
+
             double[][] X = new double[2*n][];
             double[] Y = new double[2*n];
             for (int i=0; i<n; i++)
             {
-                X[i] = new double[d];
+                X[i] = new double[d+k];
                 for (int j = 0; j < d; j++)
                 {
-                    X[i][j] = rnd.next(-2, 2);
+                    X[i][j] = normRnd.next(-2, 2);
                 }
                 Y[i] = 1;
             }
             for (int i=n; i<2*n; i++)
             {
-                X[i] = new double[d];
+                X[i] = new double[d+k];
                 for (int j = 0; j < d; j++)
                 {
-                    X[i][j] = rnd.next(1, 2);
+                    X[i][j] = normRnd.next(1, 2);
                 }
                 Y[i] = 0;
+            }
+            // add 'k' features which are just random noise
+            for (int i=0; i<2*n; i++)
+            {
+                for (int j=d; j<(d+k); j++)
+                {
+                    X[i][j] = uniformRnd.NextDouble();
+                }
             }
 
             // create an instance of LogReg
@@ -52,11 +64,32 @@ namespace LogRegTest
             // (assume a decision threshold of 0.5 on the LogReg output scores)
             ClassificationStats stats = new ClassificationStats(Y, predictions);
 
-            Console.WriteLine("Cross-validated prediction accuracy: " + stats.Accuracy*100 + "%");
-                       
+            Console.WriteLine("Cross-validated prediction accuracy on full dataset: " + stats.Accuracy*100 + "%");
+
+            // use a greedy feature selection to eliminate useless features
+            GreedyFeatureSelector selector = new GreedyFeatureSelector(X, Y, 0);
+            lr = new LogReg();
+            predictionEvaluation eval = (trueOutcomes, predictedOutcomes) =>
+            {
+                stats = new ClassificationStats(trueOutcomes, predictedOutcomes);
+                return -stats.Accuracy;
+            };
+            Console.WriteLine("Performing feature selection...");
+            int[] selections = selector.SelectFeatures(lr, eval);
+            X = selector.reduceDataset(selections);
+
+            // find the new classification performance
+            cv = new CrossValidator(X, Y, 10, 0);
+            predictions = cv.getCvPredictions(lr, false, true);
+            stats = new ClassificationStats(Y, predictions);
+            Console.WriteLine("Cross-validated prediction accuracy after feature selection: " + stats.Accuracy * 100 + "%");
+
+
             Console.ReadKey();
         }
     }
+
+    
 
     /// <summary>
     /// Class for generating normally distributed random numbers
