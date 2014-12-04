@@ -53,7 +53,7 @@ namespace Modelling
 
         public ClassificationStats(double[] TrueY, double[] PredictedY)
         {
-            trueY = (double[])TrueY.Clone();
+            trueY = TrueY;
             predictedY = (double[])PredictedY.Clone();
 
             // tabulate confusion matrix and calculate brier score at the same time

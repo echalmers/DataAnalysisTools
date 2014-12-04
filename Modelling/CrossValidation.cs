@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Modelling
 {
     public delegate double predictionEvaluation(double[] trueY, double[] predictions);
+    public delegate double predictionEvaluationWithSupplement(double[] trueY, double[] predictions, double[] supplement);
 
     /// <summary>
     /// Class useful for performing cross validation
@@ -24,11 +25,14 @@ namespace Modelling
         Random rnd;
         double[][] fullX;
         double[] fullY;
+        double[] fullSupplement;
         
         List<double[]>[] XtrainingSets;
         List<double>[] YtrainingSets;
+        List<double>[] trainingSetSupplement;
         List<double[]>[] XtestSets;
         List<double>[] YtestSets;
+        List<double>[] testSetSupplement;
 
         List<int>[] instancesAssignedToFolds;
         public List<int>[] InstancesAssignedToFolds
@@ -43,7 +47,8 @@ namespace Modelling
         /// <param name="Y">All output values</param>
         /// <param name="folds">number of folds</param>
         /// <param name="rndSeed">Seed for random number generation</param>
-        public CrossValidator(double[][] X, double[] Y, int folds, int rndSeed)
+        /// <param name="Supplement">Optional comma-separated list of supplementary data in double[n] format, where n is the number of instances in X</param>
+        public CrossValidator(double[][] X, double[] Y, int folds, int rndSeed, double[] Supplement = null)
         {
             rnd = new Random(rndSeed);
 
@@ -51,6 +56,7 @@ namespace Modelling
 
             fullX = X;
             fullY = Y;
+            fullSupplement = Supplement;
             k = folds;
 
             repartition();
@@ -125,18 +131,34 @@ namespace Modelling
         /// <param name="useParallel">Set to true to run all folds in parallel</param>
         /// <param name="reps">The total number of repetitions to perform (folds are re-randomized each time)</param>
         /// <returns></returns>
-        public double crossValidate(LearnerInterface learner, predictionEvaluation eval, bool display, bool useParallel, int reps)
+        public double crossValidate(LearnerInterface learner, predictionEvaluationWithSupplement eval, bool display, bool useParallel, int reps)
         {
             double[] obs = new double[reps];
 
             for (int rep = 0; rep < reps; rep++)
             {
                 double[] predictions = getCvPredictions(learner, display, useParallel);
-                obs[rep] = eval(fullY, predictions);
+                obs[rep] = eval(fullY, predictions, fullSupplement);
                 repartition();
             }
 
             return obs.Average();
+        }
+
+        /// <summary>
+        /// Evaluate a learner according to a supplied objective function
+        /// </summary>
+        /// <param name="learner">The learner object</param>
+        /// <param name="eval">The objective function</param>
+        /// <param name="display">Set to true to write progress to the console</param>
+        /// <param name="useParallel">Set to true to run all folds in parallel</param>
+        /// <param name="reps">The total number of repetitions to perform (folds are re-randomized each time)</param>
+        /// <returns></returns>
+        public double crossValidate(LearnerInterface learner, predictionEvaluation eval, bool display, bool useParallel, int reps)
+        {
+            predictionEvaluationWithSupplement wrapper = (y, p, s) => eval(y, p);
+
+            return crossValidate(learner, wrapper, display, useParallel, reps);
         }
 
 
@@ -146,6 +168,8 @@ namespace Modelling
             YtrainingSets = new List<double>[k];
             XtestSets = new List<double[]>[k];
             YtestSets = new List<double>[k];
+            trainingSetSupplement = new List<double>[k];
+            testSetSupplement = new List<double>[k];
             instancesAssignedToFolds = new List<int>[k];
 
             // initialize training and test set lists
@@ -155,6 +179,8 @@ namespace Modelling
                 XtestSets[i] = new List<double[]>();
                 YtrainingSets[i] = new List<double>();
                 YtestSets[i] = new List<double>();
+                trainingSetSupplement[i] = new List<double>();
+                testSetSupplement[i] = new List<double>();
 
                 instancesAssignedToFolds[i] = new List<int>();
             }
@@ -192,11 +218,15 @@ namespace Modelling
                     {
                         YtestSets[f].Add(fullY[i]);
                         XtestSets[f].Add(fullX[i]);
+                        if (!(fullSupplement==null))
+                            testSetSupplement[f].Add(fullSupplement[i]);
                     }
                     else
                     {
                         YtrainingSets[f].Add(fullY[i]);
                         XtrainingSets[f].Add(fullX[i]);
+                        if (!(fullSupplement == null))
+                            trainingSetSupplement[f].Add(fullSupplement[i]);
                     }
                 }
             }
@@ -220,6 +250,16 @@ namespace Modelling
         public double[] testY(int fold)
         {
             return YtestSets[fold].ToArray();
+        }
+
+        public double[] trainingSupplement(int fold)
+        {
+            return trainingSetSupplement[fold].ToArray();
+        }
+
+        public double[] testSupplement(int fold)
+        {
+            return testSetSupplement[fold].ToArray();
         }
     }
 }

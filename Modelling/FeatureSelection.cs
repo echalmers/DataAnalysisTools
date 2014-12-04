@@ -17,6 +17,7 @@ namespace Modelling
         List<int> selected = new List<int>();
         double[][] X;
         double[] Y;
+        double[] supplement;
         double? bestFitness = null;
 
         int cvFolds = 8;
@@ -47,6 +48,13 @@ namespace Modelling
             set { keepin = value; }
         }
 
+        int[] keepout;
+        public int[] Keepout
+        {
+            get { return keepout; }
+            set { keepout = value; }
+        }
+
         int rndSeed;
         #endregion
 
@@ -56,10 +64,12 @@ namespace Modelling
         /// <param name="trainingX">Training instances</param>
         /// <param name="trainingY">Training outputs</param>
         /// <param name="RandSeed">Seed for random number generation</param>
-        public GreedyFeatureSelector(double[][] trainingX, double[] trainingY, int RandSeed)
+        /// /// <param name="Supplement">Optional comma-separated list of supplementary data in double[n] format, where n is the number of instances in X</param>
+        public GreedyFeatureSelector(double[][] trainingX, double[] trainingY, int RandSeed, double[] Supplement = null)
         {
             X = trainingX;
             Y = trainingY;
+            supplement = Supplement;
             rndSeed = RandSeed;
         }
 
@@ -70,6 +80,18 @@ namespace Modelling
         /// <param name="evaluate">the objective function used in the evaluation</param>
         /// <returns>the indices of the features selected</returns>
         public int[] SelectFeatures(LearnerInterface learner, predictionEvaluation evaluate)
+        {
+            predictionEvaluationWithSupplement wrapper = (t, p, s) => evaluate(t, p);
+            return SelectFeatures(learner, wrapper);
+        }
+
+        /// <summary>
+        /// Perform feature selection
+        /// </summary>
+        /// <param name="learner">the learner to evaluate</param>
+        /// <param name="evaluate">the objective function used in the evaluation</param>
+        /// <returns>the indices of the features selected</returns>
+        public int[] SelectFeatures(LearnerInterface learner, predictionEvaluationWithSupplement evaluate)
         {
             int D = X[0].Length;
 
@@ -87,6 +109,15 @@ namespace Modelling
                 foreach (int i in keepin)
                 {
                     selected.Add(i);
+                    unselected.Remove(i);
+                }
+            }
+
+            // remove all 'keepout' features from the unselected list
+            if (keepout != null)
+            {
+                foreach (int i in keepout)
+                {
                     unselected.Remove(i);
                 }
             }
@@ -114,7 +145,7 @@ namespace Modelling
                     //}
 
                     // get cross validated predictions using the candidate set
-                    CrossValidator cv = new CrossValidator(Xreduced, Y, cvFolds, rndSeed);
+                    CrossValidator cv = new CrossValidator(Xreduced, Y, cvFolds, rndSeed, supplement);
                     //double[] thesePredictions = cv.getCvPredictions(learner);
                     //double thisFitness = evaluate(Y, thesePredictions);
                     double thisFitness = cv.crossValidate(learner, evaluate, false, false, cvReps);
