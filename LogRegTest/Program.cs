@@ -8,7 +8,7 @@ using Modelling;
 namespace LogRegTest
 {
     /// <summary>
-    /// Simple test program showing the use of the LogReg and CrossValidator classes.
+    /// Simple test program showing the use of the LogReg, CrossValidator and GreedyFeatureSelector classes.
     /// </summary>
     class Program
     {
@@ -18,8 +18,8 @@ namespace LogRegTest
             // normal distributions with identity covariances, one with mean
             // x1 = x2 ... = xd = -2, the other with mean x1 = x2...=xd = 1.
             // an addtional 'k' features which are just random noise are added.
-            int d = 5;
-            int k = 5;
+            int d = 3;
+            int k = 3;
             int n = 100;
             NormalRandom normRnd = new NormalRandom();
             Random uniformRnd = new Random();
