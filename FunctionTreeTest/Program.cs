@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Modelling.FunctionTree;
-//using Modelling.Decision_Tree;
+using Modelling.Decision_Tree;
 
 namespace FunctionTreeTest
 {
@@ -12,6 +12,8 @@ namespace FunctionTreeTest
     {
         static void Main()
         {
+            DecisionTreeBranchNode root = 
+
 
 
             //Functions f = new Functions();
@@ -50,4 +52,4 @@ namespace FunctionTreeTest
 //            return 4;
 //        }
 //    }
-//}
+}
