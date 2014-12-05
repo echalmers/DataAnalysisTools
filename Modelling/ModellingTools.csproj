@@ -45,9 +45,7 @@
     <Compile Include="ClassificationStats.cs" />
     <Compile Include="CrossValidation.cs" />
     <Compile Include="DataSet.cs" />
-    <Compile Include="Decision Tree\DecisionTree.cs" />
     <Compile Include="FeatureSelection.cs" />
-    <Compile Include="Decision Tree\FunctionTreeNode.cs" />
     <Compile Include="LearnerInterface.cs" />
     <Compile Include="SimpleLogReg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
