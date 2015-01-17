@@ -188,6 +188,8 @@ namespace Modelling
             x = Xlist.ToArray();
             y = Ylist.ToArray();
             text = textList.ToArray();
+
+            rdr.Close();
         }
 
         /// <summary>

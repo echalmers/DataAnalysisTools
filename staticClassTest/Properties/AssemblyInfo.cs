@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FunctionTreeTest")]
+[assembly: AssemblyTitle("staticClassTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("FunctionTreeTest")]
+[assembly: AssemblyProduct("staticClassTest")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fc0a90b4-d4c5-4d7a-862e-7dcbbdbe99e3")]
+[assembly: Guid("561870d3-e3da-4b50-a040-19e84c7381c9")]
 
 // Version information for an assembly consists of the following four values:
 //
