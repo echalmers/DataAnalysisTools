@@ -45,7 +45,11 @@
     <Compile Include="ClassificationStats.cs" />
     <Compile Include="CrossValidation.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="DecisionTree\BranchingFunction.cs" />
+    <Compile Include="DecisionTree\ClassificationTree.cs" />
+    <Compile Include="DecisionTree\ClassProbability.cs" />
     <Compile Include="DecisionTree\DecisionTreeNode.cs" />
+    <Compile Include="DecisionTree\RandomForest.cs" />
     <Compile Include="FeatureSelection.cs" />
     <Compile Include="LearnerInterface.cs" />
     <Compile Include="SimpleLogReg.cs" />

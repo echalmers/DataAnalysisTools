@@ -7,6 +7,9 @@ using Modelling.DecisionTree;
 
 namespace DecisionTreeTest
 {
+    /// <summary>
+    /// This program demonstrates the use of the ClassificationTree class
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -26,12 +29,16 @@ namespace DecisionTreeTest
                 new double[5] {0,0,0,0,0},
                 new double[5] {1,1,1,0,3}
             };
-            double[] Y = {1,0,1,1,0,1,0,1,0,0,0,1};
+            double[] Y = { 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1 };
             string[] featureNames = { "bar", "fri/sat", "hungry", "rain", "estimate" };
 
-            DecisionTreeNode root = new DecisionTreeNode();
-            double h = root.H(X, Y, (instance) => (int)instance[4]);
+            ClassificationTree tree = new ClassificationTree(5, 1, 10, 5);
 
+            tree.train(X, Y, featureNames);
+            Console.WriteLine(tree.PrintTree());
+
+            Console.WriteLine("press any key...");
+            Console.ReadKey();
         }
     }
 }
