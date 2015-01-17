@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FF4E0D24-B172-4F34-90CC-80F9BFE6446D}</ProjectGuid>
+    <ProjectGuid>{7E4403AE-4C29-4973-9DB8-1831E9479005}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FunctionTreeTest</RootNamespace>
-    <AssemblyName>FunctionTreeTest</AssemblyName>
+    <RootNamespace>staticClassTest</RootNamespace>
+    <AssemblyName>staticClassTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,12 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Modelling\ModellingTools.csproj">
-      <Project>{0b4d78ba-28ee-448b-9f74-9b4d6c06d4c2}</Project>
-      <Name>ModellingTools</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
