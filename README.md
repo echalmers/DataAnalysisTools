@@ -1,7 +1,7 @@
 DataAnalysisTools
 =================
 
-This repository contains a few C# tools I have written and found useful in different predictive modelling tasks. There are three main contributions here:
+This repository contains a few C# tools I have written and found useful in different predictive modelling tasks. There are several main contributions here:
 
 1) Modelling
 
@@ -15,5 +15,7 @@ A versatile genetic algorithm which can accomodate genomes of any type (support 
 
 The genetic fuzzy model consists of a fuzzy rule base used for fuzzy inference. The rule base - including the rules themselves and the underlying fuzzy sets - is optimized by a genetic algorithm given a user-supplied set of training data. Currently, the fuzzy rule base only supports one defuzzification method: weighted average. See the GeneticFuzzyModelTest program for an example.
 
+4) Classification tree and random forest algorithms
+A C4.5-style decision tree class that can handle both continuous and discrete features. The ClassificationTree class is used by a random forest algorithm.
 
 The repository is a work in progress. Exception handling needs to be added, and there are other improvements to be made as well. I welcome any feedback or suggestions!
