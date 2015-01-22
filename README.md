@@ -17,6 +17,6 @@ The genetic fuzzy model consists of a fuzzy rule base used for fuzzy inference. 
 
 4) Classification tree and random forest algorithms
 
-A C4.5-style decision tree class that can handle both continuous and discrete features. The ClassificationTree class is used by a random forest algorithm.
+A C4.5-style decision tree class that can handle both continuous and discrete features. Also a random forest algorithm based on the ClassificationTree class.
 
 The repository is a work in progress. Exception handling needs to be added, and there are other improvements to be made as well. I welcome any feedback or suggestions!
